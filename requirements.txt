@@ -1,0 +1,4 @@
+mypythontools
+pyodbc
+pandas
+telnet

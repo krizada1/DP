@@ -1,9 +1,10 @@
 <template>
   <v-container>
+  <p>{{mydata}}</p>
     <v-btn @click="func">Ahoj</v-btn>
   </v-container>
+  
 </template>
-
 <script>
 export default {
   name: "HelloWorld",
@@ -14,9 +15,9 @@ export default {
 
   methods: {
     func() {
-      console.log("Jsem volanma");
+      console.log("Jsem volana");
 
-      window.eel.load_data()((result) => {
+      window.eel.load_data(57)((result) => {
         this.mydata = result;
       });
     },
