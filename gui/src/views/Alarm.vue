@@ -1,89 +1,91 @@
 <template>
-  <v-app id="inspire">
+  <v-card
+    class="mx-auto"
+    width="300"
+  >
+    <v-list>
+      <v-list-item>
+            <v-list-item-title>Alarm choice</v-list-item-title>
+      </v-list-item>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-    >
-           <v-divider></v-divider>
-      <v-list>
-        <v-list-item
-          v-for="[icon, text] in links"
-          :key="icon"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-main>
-      <v-container
-        class="py-8 px-6"
-        fluid
-      >
-        <v-row>
-          <v-col
-            v-for="card in cards"
-            :key="card"
-            cols="12"
+          <v-list-item
+            v-for="([title, icon], i) in helpers"
+            :key="i"
+            link
           >
-            <v-card>
-              <v-subheader>{{ card }}</v-subheader>
+            <v-list-item-title v-text="title"></v-list-item-title>
 
-              <v-list two-line>
-                <template v-for="n in 6">
-                  <v-list-item
+            <v-list-item-icon>
+              <v-icon v-text="icon"></v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        
 
-                    :key="n"
-                  >
-                    <v-list-item-avatar color="grey darken-1">
-                    </v-list-item-avatar>
+        <v-list-group
+          no-action
+          sub-group
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Ovens</v-list-item-title>
+            </v-list-item-content>
+          </template>
 
-                    <v-list-item-content>
-                      <v-list-item-title>Message {{ n }}</v-list-item-title>
+          <v-list-item
+            v-for="([title, icon], i) in admins"
+            :key="i"
+            link
+          >
+            <v-list-item-title v-text="title"></v-list-item-title>
 
-                      <v-list-item-subtitle>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
+            <v-list-item-icon>
+              <v-icon v-text="icon"></v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
 
-                  <v-divider
-                    v-if="n !== 6"
-                    :key="`divider-${n}`"
-                    inset
-                  ></v-divider>
-                </template>
-              </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+        <v-list-group
+          no-action
+          sub-group
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Painting booths</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="([title, icon], i) in cruds"
+            :key="i"
+            link
+          >
+            <v-list-item-title v-text="title"></v-list-item-title>
+
+            <v-list-item-icon>
+              <v-icon v-text="icon"></v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
+      
+    </v-list>
+  </v-card>
 </template>
 
 <script>
   export default {
     data: () => ({
-      cards: ['Today'],
-      drawer: null,
-      links: [
+        helpers: [
         ['All'],
-        ['Sand blasting'],
+        ['Sandblasting'],
+
+      ],
+      admins: [
+        ['Oven1'],
+        ['Oven2'],
+      ],
+      cruds: [
         ['Painting booth 1'],
-        ['Oven 1'],
-        ['Cooling Zone 1'],
         ['Painting booth 2'],
-        ['Oven 2'],
-        ['Cooling Zone 2'],
       ],
     }),
   }
