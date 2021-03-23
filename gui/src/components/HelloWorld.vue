@@ -17,7 +17,7 @@ export default {
     func() {
       console.log("Jsem volana");
 
-      window.eel.load_data(57)((result) => {
+      window.eel.nacti_z_db("D2Move", 1)((result) => {
         this.mydata = result;
       });
     },
