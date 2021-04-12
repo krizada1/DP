@@ -2,3 +2,4 @@ mypythontools
 pyodbc
 pandas
 telnet
+plotly

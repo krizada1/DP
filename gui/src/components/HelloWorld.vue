@@ -1,7 +1,7 @@
 <template>
   <v-container>
   <p>{{mydata}}</p>
-    <v-btn @click="func">Ahoj</v-btn>
+    <v-btn @click="func">Dej mi graf</v-btn>
   </v-container>
   
 </template>
@@ -17,7 +17,7 @@ export default {
     func() {
       console.log("Jsem volana");
 
-      window.eel.nacti_z_db("D2Move", 1)((result) => {
+      window.eel.nacti_graf("Oven1Temperature1",100,"Timing")((result) => {
         this.mydata = result;
       });
     },

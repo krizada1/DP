@@ -3,14 +3,23 @@
     class="mx-auto"
     width="300"
   >
-    <v-list 
-        rounded="True" >
+    <v-list
+    rounded="True">
       <v-list-item>
-            <v-list-item-title class="title">
-                Alarm choice</v-list-item-title>
+            <v-list-item-title class="title">Graph choice</v-list-item-title>
       </v-list-item>
 
-          <v-list-item class="main"
+      <v-list-group
+          no-action
+          sub-group
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Cycle time</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
             v-for="([title, icon], i) in helpers"
             :key="i"
             link
@@ -21,7 +30,7 @@
               <v-icon v-text="icon"></v-icon>
             </v-list-item-icon>
           </v-list-item>
-        
+        </v-list-group>
 
         <v-list-group
           no-action
@@ -29,11 +38,11 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Ovens</v-list-item-title>
+              <v-list-item-title>Oven 1</v-list-item-title>
             </v-list-item-content>
           </template>
 
-          <v-list-item
+          <v-list-item 
             v-for="([title, icon], i) in admins"
             :key="i"
             link
@@ -52,7 +61,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Painting booths</v-list-item-title>
+              <v-list-item-title>Oven 2</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -77,17 +86,16 @@
   export default {
     data: () => ({
         helpers: [
-        ['All'],
-        ['Sandblasting'],
-
+        ['Unloading'],
       ],
       admins: [
-        ['Oven1'],
-        ['Oven2'],
+        ['Temperature 1'],
       ],
       cruds: [
-        ['Painting booth 1'],
-        ['Painting booth 2'],
+        ['Temperature 1'],
+        ['Temperature 2'],
+        ['Temperature 3'],
+        ['Temperature 4'],
       ],
     }),
   }
@@ -105,9 +113,4 @@
     text-align: left;
     font-weight: bold;
 }
-.main {
-    text-align: left;
-    font-weight: bold;
-}
-
 </style>
