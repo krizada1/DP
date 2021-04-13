@@ -85,7 +85,7 @@ def nacti_z_db(promenna,pocet_zaznamu):
     return rows_as_list[0]*1 
 
 @expose
-def nacti_z_db2(promenna,pocet_zaznamu):
+def nacti_switch(promenna1,promenna2,promenna3,promenna4,promenna5,promenna6,promenna7,pocet_zaznamu):
     conn = pyodbc.connect("Driver={SQL Server};"  # napojeni na server SQL
                          "Server=DESKTOP-LMSTPTV\WINCC;"
                           "Database=PLC;"
@@ -93,11 +93,26 @@ def nacti_z_db2(promenna,pocet_zaznamu):
 
     
     cursor=conn.cursor()
-    cursor.execute('''SELECT TOP %d %s FROM PLC.dbo.bool ORDER BY Timing DESC''' %(pocet_zaznamu,promenna))
+    cursor.execute('''SELECT TOP %d %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.bool ORDER BY Timing DESC''' %(pocet_zaznamu,promenna1,promenna2,promenna3,promenna4,promenna5,promenna6,promenna7))
     rows=cursor.fetchone()
-    print(rows[0])
+    print(rows)
     conn.close()
-    return rows[0] 
+    return list(rows)
+
+@expose
+def nacti_slider(promenna1,promenna2,promenna3,promenna4,promenna5,promenna6,promenna7,pocet_zaznamu):
+    conn = pyodbc.connect("Driver={SQL Server};"  # napojeni na server SQL
+                         "Server=DESKTOP-LMSTPTV\WINCC;"
+                          "Database=PLC;"
+                          "Trusted_Connection=yes;",timeout=1)
+
+    
+    cursor=conn.cursor()
+    cursor.execute('''SELECT TOP %d %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.int ORDER BY Timing DESC''' %(pocet_zaznamu,promenna1,promenna2,promenna3,promenna4,promenna5,promenna6,promenna7))
+    rows=cursor.fetchone()
+    print(rows)
+    conn.close()
+    return list(rows)
 
 # End of file
 if __name__ == '__main__':
