@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-app>
-      <v-switch v-model="D1">
+      <v-switch v-model="D1" color="green" disabled>
         <template v-slot:label>
           D1 Move..<v-progress-circular
             :indeterminate="D1"
@@ -11,7 +11,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D2">
+      <v-switch v-model="D2" color="green" disabled>
         <template v-slot:label>
           D2 Move..<v-progress-circular
             :indeterminate="D2"
@@ -21,7 +21,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D3">
+      <v-switch v-model="D3" color="green" disabled>
         <template v-slot:label>
           D3 Move..<v-progress-circular
             :indeterminate="D3"
@@ -31,7 +31,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D4">
+      <v-switch v-model="D4" color="green" disabled>
         <template v-slot:label>
           D4 Move..<v-progress-circular
             :indeterminate="D4"
@@ -41,7 +41,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D5">
+      <v-switch v-model="D5" color="green" disabled>
         <template v-slot:label>
           D5 Move..<v-progress-circular
             :indeterminate="D5"
@@ -51,7 +51,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="P2">
+      <v-switch v-model="P2" color="green" disabled>
         <template v-slot:label>
           P2 Move..<v-progress-circular
             :indeterminate="P2"
@@ -61,7 +61,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="P3">
+      <v-switch v-model="P3" color="green" disabled>
         <template v-slot:label>
           P3 Move..<v-progress-circular
             :indeterminate="P3"
@@ -80,18 +80,35 @@ export default {
   data() {
     return {
       D1: true,
-      D2: false,
-      D3: window.eel.nacti_z_db2("D3Move", 1),
-      D4: window.eel.nacti_z_db2("D4Move", 1),
-      D5: window.eel.nacti_z_db2("D5Move", 1),
-      P2: window.eel.nacti_z_db2("P2Move", 1),
-      P3: window.eel.nacti_z_db2("P3Move", 1),
+      D2: true,
+      D3: true,
+      D4: true,
+      D5: true,
+      P2: true,
+      P3: true,
     };
   },
 
   methods: {
     load_data() {
-      this.D1 = window.eel.nacti_z_db2("D1Move", 1);
+      window.eel.nacti_switch(
+        "D1Move",
+        "D2Move",
+        "D3Move",
+        "D4Move",
+        "D5Move",
+        "P2Move",
+        "P3Move",
+        1
+      )((result) => {
+        this.D1 = result[0];
+        this.D2 = result[1];
+        this.D3 = result[2];
+        this.D4 = result[3];
+        this.D5 = result[4];
+        this.P2 = result[5];
+        this.P3 = result[6];
+      });
     },
   },
 
