@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-app>
-      <v-switch v-model="D1" color="green" disabled>
+      <v-switch v-model="D1" color="green">
         <template v-slot:label>
           D1 Move..<v-progress-circular
             :indeterminate="D1"
@@ -11,7 +11,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D2" color="green" disabled>
+      <v-switch v-model="D2" color="green">
         <template v-slot:label>
           D2 Move..<v-progress-circular
             :indeterminate="D2"
@@ -21,7 +21,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D3" color="green" disabled>
+      <v-switch v-model="D3" color="green">
         <template v-slot:label>
           D3 Move..<v-progress-circular
             :indeterminate="D3"
@@ -31,7 +31,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D4" color="green" disabled>
+      <v-switch v-model="D4" color="green">
         <template v-slot:label>
           D4 Move..<v-progress-circular
             :indeterminate="D4"
@@ -41,7 +41,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="D5" color="green" disabled>
+      <v-switch v-model="D5" color="green">
         <template v-slot:label>
           D5 Move..<v-progress-circular
             :indeterminate="D5"
@@ -51,7 +51,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="P2" color="green" disabled>
+      <v-switch v-model="P2" color="green">
         <template v-slot:label>
           P2 Move..<v-progress-circular
             :indeterminate="P2"
@@ -61,7 +61,7 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-switch v-model="P3" color="green" disabled>
+      <v-switch v-model="P3" color="green">
         <template v-slot:label>
           P3 Move..<v-progress-circular
             :indeterminate="P3"
