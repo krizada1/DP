@@ -1,84 +1,82 @@
 <template>
   <v-container fluid>
-    <v-app>
-      <v-row>
-        <v-slider
-          v-model="D1Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="D1 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-      <v-row>
-        <v-slider
-          v-model="D2Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="D2 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-      <v-row>
-        <v-slider
-          v-model="D3Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="D3 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-      <v-row>
-        <v-slider
-          v-model="D4Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="D4 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-      <v-row>
-        <v-slider
-          v-model="D5Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="D5 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-      <v-row>
-        <v-slider
-          v-model="P2Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="P2 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-      <v-row>
-        <v-slider
-          v-model="P3Speed"
-          thumb-label="always"
-          step="10"
-          min="0"
-          max="7000"
-          hint="P3 Speed"
-          persistent-hint
-        ></v-slider>
-      </v-row>
-    </v-app>
+    <v-row>
+      <v-slider
+        v-model="D1Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="D1 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
+    <v-row>
+      <v-slider
+        v-model="D2Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="D2 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
+    <v-row>
+      <v-slider
+        v-model="D3Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="D3 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
+    <v-row>
+      <v-slider
+        v-model="D4Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="D4 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
+    <v-row>
+      <v-slider
+        v-model="D5Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="D5 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
+    <v-row>
+      <v-slider
+        v-model="P2Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="P2 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
+    <v-row>
+      <v-slider
+        v-model="P3Speed"
+        thumb-label="always"
+        step="10"
+        min="0"
+        max="7000"
+        hint="P3 Speed"
+        persistent-hint
+      ></v-slider>
+    </v-row>
   </v-container>
 </template>
 
