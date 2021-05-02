@@ -1,48 +1,33 @@
 <template>
-  <div class="home">
-    <v-row>
-      <v-col><Graphlist /></v-col>
-      <v-col><HelloWorld /></v-col>
-      <v-col></v-col>
-      <v-col></v-col>
-      <Plotly
-        v-if="show_data_loaded_plot"
-        :data="plotly_data"
-        :layout="{ ...layout, height: 550 }"
-        class="mt-4"
-      ></Plotly>
-      <Plotly
-        v-if="show_data_loaded_plot"
-        :data="plotly_data"
-        :layout="{ ...layout, height: 550 }"
-        class="mt-4"
-      ></Plotly>
-      <Plotly
-        v-if="show_data_loaded_plot"
-        :data="plotly_data"
-        :layout="{ ...layout, height: 550 }"
-        class="mt-4"
-      ></Plotly>
-      <Plotly
-        v-if="show_data_loaded_plot"
-        :data="plotly_data"
-        :layout="{ ...layout, height: 550 }"
-        class="mt-4"
-      ></Plotly>
-      <Plotly
-        v-if="show_data_loaded_plot"
-        :data="plotly_data"
-        :layout="{ ...layout, height: 550 }"
-        class="mt-4"
-      ></Plotly>
-    </v-row>
-  </div>
+  <v-container fluid style="margin: 35px; padding: 0px; width: 100%">
+    <div class="home">
+      <v-row>
+        <v-col cols="2"
+          ><v-row><Graphlist /></v-row>
+          <v-row><p></p></v-row>
+          <v-row><Timelist /></v-row>
+        </v-col>
+        <v-col>
+          <Plotly
+            v-if="show_data_loaded_plot"
+            :data="plotly_data"
+            :layout="{ ...layout }"
+            class="mt-4"
+          >
+          </Plotly>
+          <p>
+            {{ $store.state.plotly_payload.promenna }}
+          </p>
+        </v-col>
+      </v-row>
+    </div>
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 import Graphlist from "@/components/Graphlist.vue";
+import Timelist from "@/components/Timelist.vue";
 import { mapState } from "vuex";
 
 import { Plotly } from "vue-plotly";
@@ -50,8 +35,8 @@ import { Plotly } from "vue-plotly";
 export default {
   name: "Graph",
   components: {
-    HelloWorld,
     Graphlist,
+    Timelist,
     Plotly,
   },
 
@@ -63,6 +48,18 @@ export default {
         font: {
           family: "roboto",
         },
+        autosize: "false",
+        width: 1000,
+        height: 500,
+        xaxis: {
+          type: "date",
+          tickformat: "%y/%m/%d %H:%M:%S",
+          tickmode: "array",
+          tickangle: "45",
+          visible: true,
+          showticklabels: true,
+        },
+
         legend: {
           orientation: "h",
           y: -0.2,

@@ -2,6 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-slider
+        class="slider"
         v-model="D1Speed"
         thumb-label="always"
         step="10"
@@ -13,6 +14,7 @@
     </v-row>
     <v-row>
       <v-slider
+        class="slider"
         v-model="D2Speed"
         thumb-label="always"
         step="10"
@@ -24,6 +26,7 @@
     </v-row>
     <v-row>
       <v-slider
+        class="slider"
         v-model="D3Speed"
         thumb-label="always"
         step="10"
@@ -35,6 +38,7 @@
     </v-row>
     <v-row>
       <v-slider
+        class="slider"
         v-model="D4Speed"
         thumb-label="always"
         step="10"
@@ -46,6 +50,7 @@
     </v-row>
     <v-row>
       <v-slider
+        class="slider"
         v-model="D5Speed"
         thumb-label="always"
         step="10"
@@ -57,6 +62,7 @@
     </v-row>
     <v-row>
       <v-slider
+        class="slider"
         v-model="P2Speed"
         thumb-label="always"
         step="10"
@@ -68,6 +74,7 @@
     </v-row>
     <v-row>
       <v-slider
+        class="slider"
         v-model="P3Speed"
         thumb-label="always"
         step="10"
@@ -122,3 +129,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.slider {
+  height: 65px;
+}
+</style>

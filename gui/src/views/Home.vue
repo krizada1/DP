@@ -1,19 +1,30 @@
 <template>
-  <div class="home">
-    <v-row><br /></v-row>
-    <v-row><br /></v-row>
-    <v-row><br /></v-row>
-    <v-row>
-      <v-col><h2>ON / OFF dopravníků</h2></v-col>
-      <v-col><h2>Rychlost dopravníků</h2></v-col>
-      <v-col><h2>Stav lakovny</h2></v-col>
-    </v-row>
-    <v-row>
-      <v-col><v-divider></v-divider><br /><Switches /></v-col>
-      <v-col><v-divider></v-divider><br /><br /><br /><Sliders /></v-col>
-      <v-col><v-divider></v-divider><br /><Indicators /></v-col>
-    </v-row>
-  </div>
+  <v-container fluid>
+    <div class="home">
+      <v-row>
+        <v-col cols="3">
+          <h2>ON / OFF dopravníků</h2>
+          <v-divider></v-divider>
+          <br />
+          <Switches />
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="4">
+          <h2>Rychlost dopravníků</h2>
+          <v-divider></v-divider>
+          <br /><br />
+          <Sliders />
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="3">
+          <h2>Stav lakovny</h2>
+          <v-divider></v-divider>
+          <br />
+          <Indicators />
+        </v-col>
+      </v-row>
+    </div>
+  </v-container>
 </template>
 
 <script>
@@ -31,3 +42,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.home {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+</style>

@@ -224,7 +224,7 @@ while True:
             time.sleep(1 )
             print("\n")
         except:
-
+            Timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             print("SQL nedostupne  " + Timestamp)
             try:
                 telnetlib.Telnet('localhost', port=49978, timeout=1) #zkousi dostupnost SQL severu
@@ -238,6 +238,7 @@ while True:
                 print("\n")
         time.sleep(4)
     except:
+        Timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print("OPC nedostupne  " +  Timestamp)
         try:
             client.connect()
