@@ -1,7 +1,11 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
-      <v-switch v-model="D1" color="green">
+      <v-switch
+        v-model="D1"
+        color="green"
+        @click="ChangeSwitch('D1Move_new', D1)"
+      >
         <template v-slot:label>
           D1 Move..<v-progress-circular
             :indeterminate="D1"
@@ -121,6 +125,10 @@ export default {
         this.P2 = result[5];
         this.P3 = result[6];
       });
+    },
+
+    ChangeSwitch(variable, value) {
+      window.eel.set_value(variable, value);
     },
   },
 

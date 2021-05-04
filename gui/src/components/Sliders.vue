@@ -132,6 +132,6 @@ export default {
 
 <style scoped>
 .slider {
-  height: 65px;
+  height: 66px;
 }
 </style>

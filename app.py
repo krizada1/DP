@@ -4,7 +4,28 @@ import pyodbc
 import plotly as pl
 import mypythontools
 from pathlib import Path
+from opcua import Client
 
+try:
+    client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
+    client.connect()
+    print("OPC Server uspesne pripojen")
+
+except:
+    print("OPC Server nepripojen")
+
+@expose
+def set_value(variable, value):
+    try:
+        variable_node = client.get_node('ns=2;s=Paintshop.%s' %variable) 
+        variable_node.set_value(value)
+    
+    except:
+        try:
+            client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
+            client.connect()
+        except:
+            print("Nedari se navazat spojeni s OPC - nelze ovladat pres web")
 
 @expose
 def get_plot(promenna, pocet_zaznamu,casovani):
@@ -24,35 +45,6 @@ def get_plot(promenna, pocet_zaznamu,casovani):
     df = pd.DataFrame(df_query, columns=[promenna,casovani])
     return mypythontools.pyvueeel.to_vue_plotly(df)
 
-#@expose
-#def get_plot():
-
-    # encoded_params = mypythontools.pyvueeel.json_to_py(sdf)
-
-    # to delete
-    # import store
-
-#    import pandas as pd
-#    import numpy as np
-
-#    df = pd.DataFrame(np.random.randn(10000, 3))
-#    print (df)
-    # store.df = pd.DataFrame(np.random.randn(10000, 3))
-
-#    return mypythontools.pyvueeel.to_vue_plotly(df)
-
-# Expose python functions to Js with decorator
-
-@expose
-def load_data(neznama):
-    # You can return dict - will be object in js
-    # You can return list - will be an array in js
-
-    print(666)
-
-    return neznama
-
-    # return {'Hello': 1}
 
 
 @expose
@@ -112,7 +104,6 @@ def nacti_switch(
         )
     )
     rows = cursor.fetchone()
-    print(rows)
     conn.close()
     return list(rows)
 
@@ -151,7 +142,6 @@ def nacti_slider(
         )
     )
     rows = cursor.fetchone()
-    print(rows)
     conn.close()
     return list(rows)
 
