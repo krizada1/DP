@@ -4,7 +4,7 @@ import pyodbc
 import plotly as pl
 import mypythontools
 from pathlib import Path
-from opcua import Client
+from opcua import Client, ua
 
 try:
     client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
@@ -14,18 +14,25 @@ try:
 except:
     print("OPC Server nepripojen")
 
+
 @expose
-def set_value(variable, value):
-    try:
-        variable_node = client.get_node('ns=2;s=Paintshop.%s' %variable) 
-        variable_node.set_value(value)
-    
-    except:
-        try:
-            client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
-            client.connect()
-        except:
-            print("Nedari se navazat spojeni s OPC - nelze ovladat pres web")
+def set_switch_value(variable, value):
+    variable_node = client.get_node('ns=2;s=Paintshop.%s' %variable) 
+    variable_node.set_value(value)
+    print("zapsano na opc")
+
+@expose
+def set_slider_value(variable, value):
+    variable_node = client.get_node('ns=2;s=Paintshop.%s' %variable) 
+    datavalue = ua.DataValue(ua.Variant(value, ua.VariantType.Int16))
+    variable_node.set_data_value(datavalue)
+
+    #except:
+        #try:
+            #client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
+            #client.connect()
+        #except:
+            #print("Nedari se navazat spojeni s OPC - nelze ovladat pres web")
 
 @expose
 def get_plot(promenna, pocet_zaznamu,casovani):
@@ -79,7 +86,7 @@ def nacti_switch(
     promenna5,
     promenna6,
     promenna7,
-    pocet_zaznamu,
+    scadacontrol,
 ):
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
@@ -91,9 +98,8 @@ def nacti_switch(
 
     cursor = conn.cursor()
     cursor.execute(
-        """SELECT TOP %d %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.bool ORDER BY Timing DESC"""
-        % (
-            pocet_zaznamu,
+        """SELECT TOP 1 %s,%s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.bool ORDER BY Timing DESC"""
+        % ( 
             promenna1,
             promenna2,
             promenna3,
@@ -101,6 +107,7 @@ def nacti_switch(
             promenna5,
             promenna6,
             promenna7,
+            scadacontrol,
         )
     )
     rows = cursor.fetchone()
@@ -117,7 +124,6 @@ def nacti_slider(
     promenna5,
     promenna6,
     promenna7,
-    pocet_zaznamu,
 ):
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
@@ -129,9 +135,8 @@ def nacti_slider(
 
     cursor = conn.cursor()
     cursor.execute(
-        """SELECT TOP %d %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.int ORDER BY Timing DESC"""
+        """SELECT TOP 1 %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.int ORDER BY Timing DESC"""
         % (
-            pocet_zaznamu,
             promenna1,
             promenna2,
             promenna3,

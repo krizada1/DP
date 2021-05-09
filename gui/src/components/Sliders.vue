@@ -10,6 +10,7 @@
         max="7000"
         hint="D1 Speed"
         persistent-hint
+        @end="ChangeSlider('D1Speed', D1Speed)"
       ></v-slider>
     </v-row>
     <v-row>
@@ -22,6 +23,7 @@
         max="7000"
         hint="D2 Speed"
         persistent-hint
+        @end="ChangeSlider('D2Speed', D2Speed)"
       ></v-slider>
     </v-row>
     <v-row>
@@ -34,6 +36,7 @@
         max="7000"
         hint="D3 Speed"
         persistent-hint
+        @end="ChangeSlider('D3Speed', D3Speed)"
       ></v-slider>
     </v-row>
     <v-row>
@@ -46,6 +49,7 @@
         max="7000"
         hint="D4 Speed"
         persistent-hint
+        @end="ChangeSlider('D4Speed', D4Speed)"
       ></v-slider>
     </v-row>
     <v-row>
@@ -58,6 +62,7 @@
         max="7000"
         hint="D5 Speed"
         persistent-hint
+        @end="ChangeSlider('D5Speed', D5Speed)"
       ></v-slider>
     </v-row>
     <v-row>
@@ -70,6 +75,7 @@
         max="7000"
         hint="P2 Speed"
         persistent-hint
+        @end="ChangeSlider('P2Speed', P2Speed)"
       ></v-slider>
     </v-row>
     <v-row>
@@ -82,6 +88,7 @@
         max="7000"
         hint="P3 Speed"
         persistent-hint
+        @end="ChangeSlider('P3Speed', P3Speed)"
       ></v-slider>
     </v-row>
   </v-container>
@@ -110,8 +117,7 @@ export default {
         "D4Speed",
         "D5Speed",
         "P2Speed",
-        "P3Speed",
-        1
+        "P3Speed"
       )((result) => {
         this.D1Speed = result[0];
         this.D2Speed = result[1];
@@ -122,10 +128,17 @@ export default {
         this.P3Speed = result[6];
       });
     },
+
+    ChangeSlider(variable, value) {
+      window.eel.set_slider_value(variable, value);
+    },
   },
 
   mounted: function () {
     this.load_data();
+    window.setInterval(() => {
+      this.load_data();
+    }, 5000);
   },
 };
 </script>

@@ -77,6 +77,9 @@ export default {
 
   mounted: function () {
     this.load_data();
+    window.setInterval(() => {
+      this.load_data();
+    }, 5000);
   },
 };
 </script>
