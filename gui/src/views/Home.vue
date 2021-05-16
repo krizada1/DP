@@ -23,6 +23,7 @@
           <Indicators />
         </v-col>
       </v-row>
+      <v-row><Scada /></v-row>
     </div>
   </v-container>
 </template>
@@ -32,6 +33,7 @@
 import Switches from "@/components/Switches.vue";
 import Sliders from "@/components/Sliders.vue";
 import Indicators from "@/components/Indicators.vue";
+import Scada from "@/components/Scada.vue";
 
 export default {
   name: "Home",
@@ -39,6 +41,7 @@ export default {
     Switches,
     Sliders,
     Indicators,
+    Scada,
   },
 };
 </script>

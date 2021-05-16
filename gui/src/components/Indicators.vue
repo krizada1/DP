@@ -61,8 +61,7 @@ export default {
         "CoolingZone1PowerOn",
         "Cabine2Online",
         "CoolingZone2PowerOn",
-        "oven2PowerOff",
-        1
+        "oven2PowerOff"
       )((result) => {
         this.blasterAuto = result[0];
         this.Cabine1Online = result[1];

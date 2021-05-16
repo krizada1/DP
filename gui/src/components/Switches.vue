@@ -84,22 +84,6 @@
         </template>
       </v-switch>
     </v-row>
-    <v-row justify="center">
-      <v-switch
-        v-model="ctrl"
-        color="green"
-        @click="ChangeSwitch('control', true)"
-      >
-        <template v-slot:label>
-          scada control..<v-progress-circular
-            :indeterminate="ctrl"
-            :value="0"
-            size="20"
-            class="ml-2"
-          ></v-progress-circular>
-        </template>
-      </v-switch>
-    </v-row>
   </v-container>
 </template>
 
@@ -114,7 +98,6 @@ export default {
       D5: true,
       P2: true,
       P3: true,
-      ctrl: false,
     };
   },
 
@@ -127,8 +110,7 @@ export default {
         "D4Move",
         "D5Move",
         "P2Move",
-        "P3Move",
-        "control"
+        "P3Move"
       )((result) => {
         this.D1 = result[0];
         this.D2 = result[1];
@@ -137,7 +119,6 @@ export default {
         this.D5 = result[4];
         this.P2 = result[5];
         this.P3 = result[6];
-        this.ctrl = result[7];
       });
     },
 

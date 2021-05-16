@@ -1,10 +1,9 @@
 from mypythontools import pyvueeel
 from mypythontools.pyvueeel import expose
 import pyodbc
-import plotly as pl
 import mypythontools
-from pathlib import Path
 from opcua import Client, ua
+import telnetlib
 
 try:
     client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
@@ -12,8 +11,13 @@ try:
     print("OPC Server uspesne pripojen")
 
 except:
-    print("OPC Server nepripojen")
+    print("OPC Server nedostupny")
 
+try:
+    telnetlib.Telnet('localhost', port=49978, timeout=1)
+
+except:
+    print("SQL Server nedostupny")
 
 @expose
 def set_switch_value(variable, value):
@@ -86,7 +90,6 @@ def nacti_switch(
     promenna5,
     promenna6,
     promenna7,
-    scadacontrol,
 ):
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
@@ -98,7 +101,7 @@ def nacti_switch(
 
     cursor = conn.cursor()
     cursor.execute(
-        """SELECT TOP 1 %s,%s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.bool ORDER BY Timing DESC"""
+        """SELECT TOP 1 %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.bool ORDER BY Timing DESC"""
         % ( 
             promenna1,
             promenna2,
@@ -107,13 +110,34 @@ def nacti_switch(
             promenna5,
             promenna6,
             promenna7,
-            scadacontrol,
         )
     )
     rows = cursor.fetchone()
     conn.close()
     return list(rows)
 
+@expose
+def nacti_scada(
+    scadakontrol,
+):
+    conn = pyodbc.connect(
+        "Driver={SQL Server};"  # napojeni na server SQL
+        "Server=DESKTOP-LMSTPTV\WINCC;"
+        "Database=PLC;"
+        "Trusted_Connection=yes;",
+        timeout=1,
+    )
+
+    cursor = conn.cursor()
+    cursor.execute(
+        """SELECT TOP 1 %s FROM PLC.dbo.bool ORDER BY Timing DESC"""
+        % ( 
+            scadakontrol,
+        )
+    )
+    rows = cursor.fetchone()
+    conn.close()
+    return list(rows)
 
 @expose
 def nacti_slider(
