@@ -105,11 +105,21 @@ export default {
       D5Speed: 6000,
       P2Speed: 6000,
       P3Speed: 6000,
+      OpcArray: {
+        a: false,
+        b: false,
+        c: false,
+        d: false,
+        e: false,
+        f: false,
+        g: false,
+      },
+      TimerVar: "",
     };
   },
 
   methods: {
-    load_data() {
+    LoadOpcState() {
       window.eel.nacti_slider(
         "D1Speed",
         "D2Speed",
@@ -119,26 +129,49 @@ export default {
         "P2Speed",
         "P3Speed"
       )((result) => {
-        this.D1Speed = result[0];
-        this.D2Speed = result[1];
-        this.D3Speed = result[2];
-        this.D4Speed = result[3];
-        this.D5Speed = result[4];
-        this.P2Speed = result[5];
-        this.P3Speed = result[6];
+        this.OpcArray.a = result[0];
+        this.OpcArray.b = result[1];
+        this.OpcArray.c = result[2];
+        this.OpcArray.d = result[3];
+        this.OpcArray.e = result[4];
+        this.OpcArray.f = result[5];
+        this.OpcArray.g = result[6];
       });
     },
 
+    UpdateSliders() {
+      this.D1Speed = this.OpcArray.a;
+      this.D2Speed = this.OpcArray.b;
+      this.D3Speed = this.OpcArray.c;
+      this.D4Speed = this.OpcArray.d;
+      this.D5Speed = this.OpcArray.e;
+      this.P2Speed = this.OpcArray.f;
+      this.P3Speed = this.OpcArray.g;
+    },
+
     ChangeSlider(variable, value) {
+      window.clearTimeout(this.TimerVar);
       window.eel.set_slider_value(variable, value);
+      this.TimerVar = window.setTimeout(() => {
+        this.UpdateSwitches();
+      }, 4000);
     },
   },
 
   mounted: function () {
-    this.load_data();
+    this.LoadOpcState();
     window.setInterval(() => {
-      this.load_data();
-    }, 5000);
+      this.LoadOpcState();
+    }, 1000);
+  },
+
+  watch: {
+    OpcArray: {
+      handler: function () {
+        this.UpdateSliders();
+      },
+      deep: true,
+    },
   },
 };
 </script>

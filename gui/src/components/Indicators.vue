@@ -53,7 +53,7 @@ export default {
   },
 
   methods: {
-    load_data() {
+    LoadOpcState() {
       window.eel.nacti_switch(
         "blasterAuto",
         "Cabine1Online",
@@ -75,10 +75,10 @@ export default {
   },
 
   mounted: function () {
-    this.load_data();
+    this.LoadOpcState();
     window.setInterval(() => {
-      this.load_data();
-    }, 5000);
+      this.LoadOpcState();
+    }, 1000);
   },
 };
 </script>

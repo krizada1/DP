@@ -98,11 +98,21 @@ export default {
       D5: true,
       P2: true,
       P3: true,
+      OpcArray: {
+        a: false,
+        b: false,
+        c: false,
+        d: false,
+        e: false,
+        f: false,
+        g: false,
+      },
+      TimerVar: "",
     };
   },
 
   methods: {
-    load_data() {
+    LoadOpcState() {
       window.eel.nacti_switch(
         "D1Move",
         "D2Move",
@@ -112,26 +122,49 @@ export default {
         "P2Move",
         "P3Move"
       )((result) => {
-        this.D1 = result[0];
-        this.D2 = result[1];
-        this.D3 = result[2];
-        this.D4 = result[3];
-        this.D5 = result[4];
-        this.P2 = result[5];
-        this.P3 = result[6];
+        this.OpcArray.a = result[0];
+        this.OpcArray.b = result[1];
+        this.OpcArray.c = result[2];
+        this.OpcArray.d = result[3];
+        this.OpcArray.e = result[4];
+        this.OpcArray.f = result[5];
+        this.OpcArray.g = result[6];
       });
     },
 
+    UpdateSwitches() {
+      this.D1 = this.OpcArray.a;
+      this.D2 = this.OpcArray.b;
+      this.D3 = this.OpcArray.c;
+      this.D4 = this.OpcArray.d;
+      this.D5 = this.OpcArray.e;
+      this.P2 = this.OpcArray.f;
+      this.P3 = this.OpcArray.g;
+    },
+
     ChangeSwitch(variable, value) {
+      window.clearTimeout(this.TimerVar);
       window.eel.set_switch_value(variable, value);
+      this.TimerVar = window.setTimeout(() => {
+        this.UpdateSwitches();
+      }, 4000);
     },
   },
 
   mounted: function () {
-    this.load_data();
+    this.LoadOpcState();
     window.setInterval(() => {
-      this.load_data();
-    }, 5000);
+      this.LoadOpcState();
+    }, 1000);
+  },
+
+  watch: {
+    OpcArray: {
+      handler: function () {
+        this.UpdateSwitches();
+      },
+      deep: true,
+    },
   },
 };
 </script>
