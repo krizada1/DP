@@ -4,6 +4,8 @@ import pyodbc
 import mypythontools
 from opcua import Client, ua
 import telnetlib
+import pandas as pd
+import datetime
 
 try:
     client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
@@ -57,9 +59,9 @@ def get_plot(promenna, pocet_zaznamu,casovani):
     return mypythontools.pyvueeel.to_vue_plotly(df)
 
 
-
 @expose
-def nacti_z_db(promenna, pocet_zaznamu):
+def get_table(promenna):
+
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
         "Server=DESKTOP-LMSTPTV\WINCC;"
@@ -68,21 +70,41 @@ def nacti_z_db(promenna, pocet_zaznamu):
         timeout=1,
     )
 
-    cursor = conn.cursor()
-    cursor.execute(
-        """SELECT TOP %d %s FROM PLC.dbo.bool ORDER BY Timing DESC"""
-        % (pocet_zaznamu, promenna)
-    )
-    rows = cursor.fetchall()
-    rows_as_list = [x for y in rows for x in y]
-    for row in rows_as_list:
-        print(row)
-    conn.close()
-    return rows_as_list[0] * 1
+      #zdvojnasobi zadany pocet zaznamu, protoze potrebuju zacatek i konec alarmu
 
+    query="""select %s,Timing 
+    from (select *,lead(%s) over(order by Timing desc) as prev_value 
+    from PLC.dbo.bool 
+    ) l where prev_value <> %s""" %(promenna,promenna,promenna)
+    
+    df_query = pd.read_sql_query(query,conn,parse_dates=["Timing"]) #nacte z SQL, kde "Timing" je datetime
+    df = pd.DataFrame(df_query, columns=[promenna,"Timing"]) #vytvoreni df
+    
+    selected_columns = df[[promenna,"Timing","Timing"]] #zdvojnasobi se sloupce s casem
+    new_df = selected_columns.copy()                    #zdvojnasobi se sloupce s casem
+    new_df.insert(3, "Duration", int(0), allow_duplicates = True)
+    new_df.columns = ['Location', 'Start time', 'Finish time', 'Duration']  #prejmenujou se sloupce
+    
+    number_of_rows = len(df.index) #zjisti se pocet radku
+
+
+    for i in range(int(number_of_rows/2)): 
+        new_df.at[i*2,'Start time'] = new_df.iloc[2*i+1]['Start time']    #propisuje se hodnota zacatku naspolecny radek jako hodnota konce alarmu
+        try:
+            new_df.at[i*2,'Duration'] = datetime.timedelta.total_seconds(new_df.iloc[2*i]['Finish time'] - new_df.iloc[2*i]['Start time'])    #propisuje se hodnota zacatku naspolecny radek jako hodnota konce alarmu
+        except: 0
+
+    new_df['Location'] = new_df['Location'].replace([True],promenna)
+    new_df=new_df.iloc[::2, :] #odstrani se kazdy druhy radek z dataframu
+    
+
+    new_df['Start time'] = new_df['Start time'].astype(str)
+    new_df['Finish time'] = new_df['Finish time'].astype(str)
+
+    return mypythontools.pyvueeel.to_table(new_df)
 
 @expose
-def nacti_switch(
+def load_switch(
     promenna1,
     promenna2,
     promenna3,
@@ -117,8 +139,8 @@ def nacti_switch(
     return list(rows)
 
 @expose
-def nacti_scada(
-    scadakontrol,
+def load_scada(
+    scadacontrol,
 ):
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
@@ -132,15 +154,16 @@ def nacti_scada(
     cursor.execute(
         """SELECT TOP 1 %s FROM PLC.dbo.bool ORDER BY Timing DESC"""
         % ( 
-            scadakontrol,
+            scadacontrol,
         )
     )
     rows = cursor.fetchone()
     conn.close()
     return list(rows)
 
+
 @expose
-def nacti_slider(
+def load_slider(
     promenna1,
     promenna2,
     promenna3,

@@ -1,6 +1,6 @@
  <template>
   <v-card class="mx-auto" width="300">
-    <v-list rounded="True">
+    <v-list rounded="true">
       <v-list-item>
         <v-list-item-title class="title"> Alarm choice</v-list-item-title>
       </v-list-item>
@@ -34,7 +34,7 @@ export default {
       {
         title: "Oven 1",
         click() {
-          this.$store.dispatch("deleteTask", 1);
+          console.log("Oven 1");
         },
       },
       {

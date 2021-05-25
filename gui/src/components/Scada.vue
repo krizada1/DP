@@ -30,7 +30,7 @@ export default {
 
   methods: {
     load_data() {
-      window.eel.nacti_scada("control")((result) => {
+      window.eel.load_scada("control")((result) => {
         this.ctrl = result[0];
       });
     },

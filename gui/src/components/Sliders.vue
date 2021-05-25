@@ -120,7 +120,7 @@ export default {
 
   methods: {
     LoadOpcState() {
-      window.eel.nacti_slider(
+      window.eel.load_slider(
         "D1Speed",
         "D2Speed",
         "D3Speed",
@@ -153,8 +153,8 @@ export default {
       window.clearTimeout(this.TimerVar);
       window.eel.set_slider_value(variable, value);
       this.TimerVar = window.setTimeout(() => {
-        this.UpdateSwitches();
-      }, 4000);
+        this.UpdateSliders();
+      }, 5000);
     },
   },
 

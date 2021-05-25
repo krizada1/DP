@@ -54,7 +54,7 @@ export default {
 
   methods: {
     LoadOpcState() {
-      window.eel.nacti_switch(
+      window.eel.load_switch(
         "blasterAuto",
         "Cabine1Online",
         "oven1PowerOff",

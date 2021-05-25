@@ -1,21 +1,21 @@
 <template>
-  <div class="home">
-    <v-row>
-      <v-col><Alarmlist /></v-col>
-      <v-col></v-col>
-      <v-col></v-col>
-    </v-row>
-  </div>
+  <v-container fluid style="margin: 35px; padding: 0px; width: 95%">
+    <div class="home">
+      <v-row>
+        <v-col><Alarmtable /></v-col>
+      </v-row>
+    </div>
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import Alarmlist from "@/components/Alarmlist.vue";
+import Alarmtable from "@/components/Alarmtable.vue";
 
 export default {
   name: "Alarm",
   components: {
-    Alarmlist,
+    Alarmtable,
   },
 
   data() {
