@@ -160,6 +160,7 @@ export default {
 
   mounted: function () {
     this.LoadOpcState();
+    this.UpdateSliders();
     window.setInterval(() => {
       this.LoadOpcState();
     }, 1000);

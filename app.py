@@ -59,8 +59,7 @@ def get_plot(promenna, pocet_zaznamu,casovani):
     return mypythontools.pyvueeel.to_vue_plotly(df)
 
 
-@expose
-def get_table(promenna):
+def get_alarm_df(promenna):
 
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
@@ -87,6 +86,9 @@ def get_table(promenna):
     
     number_of_rows = len(df.index) #zjisti se pocet radku
 
+    if (new_df.iloc[0]['Location'] == True):
+        new_df = new_df.drop(0)
+        new_df = new_df.reset_index()
 
     for i in range(int(number_of_rows/2)): 
         new_df.at[i*2,'Start time'] = new_df.iloc[2*i+1]['Start time']    #propisuje se hodnota zacatku naspolecny radek jako hodnota konce alarmu
@@ -94,14 +96,26 @@ def get_table(promenna):
             new_df.at[i*2,'Duration'] = datetime.timedelta.total_seconds(new_df.iloc[2*i]['Finish time'] - new_df.iloc[2*i]['Start time'])    #propisuje se hodnota zacatku naspolecny radek jako hodnota konce alarmu
         except: 0
 
-    new_df['Location'] = new_df['Location'].replace([True],promenna)
+    new_df['Location'] = new_df['Location'].replace([False],promenna)
     new_df=new_df.iloc[::2, :] #odstrani se kazdy druhy radek z dataframu
     
 
     new_df['Start time'] = new_df['Start time'].astype(str)
     new_df['Finish time'] = new_df['Finish time'].astype(str)
 
-    return mypythontools.pyvueeel.to_table(new_df)
+    return new_df
+
+
+@expose
+def get_table(list_of_alarm_variables):
+    
+    final_df = pd.DataFrame()
+
+    for i in range(len(list_of_alarm_variables)):
+        df=get_alarm_df(list_of_alarm_variables[i])
+        final_df = final_df.append(df,ignore_index = True)
+
+    return mypythontools.pyvueeel.to_table(final_df)
 
 @expose
 def load_switch(

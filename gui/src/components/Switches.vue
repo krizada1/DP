@@ -244,6 +244,7 @@ export default {
 
   mounted: function () {
     this.LoadOpcState();
+    this.UpdateSwitches();
     window.setInterval(() => {
       this.LoadOpcState();
     }, 1000);

@@ -2,37 +2,37 @@
   <v-container fluid>
     <v-row>
       <v-switch v-model="blasterAuto" color="green" disabled>
-        <template v-slot:label> blasterAuto </template>
+        <template v-slot:label> Blaster </template>
       </v-switch>
     </v-row>
     <v-row>
       <v-switch v-model="Cabine1Online" color="green" disabled>
-        <template v-slot:label> Cabine1Online </template>
+        <template v-slot:label> Painting booth 1 </template>
       </v-switch>
     </v-row>
     <v-row>
       <v-switch v-model="oven1PowerOff" color="green" disabled>
-        <template v-slot:label> oven1PowerOff </template>
+        <template v-slot:label> Oven 1 </template>
       </v-switch>
     </v-row>
     <v-row>
       <v-switch v-model="CoolingZone1PowerOn" color="green" disabled>
-        <template v-slot:label> CoolingZone1PowerOn </template>
+        <template v-slot:label> Cooling Zone 1 </template>
       </v-switch>
     </v-row>
     <v-row>
       <v-switch v-model="Cabine2Online" color="green" disabled>
-        <template v-slot:label> Cabine2Online </template>
+        <template v-slot:label> Painting booth 2 </template>
       </v-switch>
     </v-row>
     <v-row>
       <v-switch v-model="CoolingZone2PowerOn" color="green" disabled>
-        <template v-slot:label> CoolingZone2PowerOn </template>
+        <template v-slot:label> Cooling Zone 2 </template>
       </v-switch>
     </v-row>
     <v-row>
       <v-switch v-model="oven2PowerOff" color="green" disabled>
-        <template v-slot:label> oven2PowerOff </template>
+        <template v-slot:label> Oven 2 </template>
       </v-switch>
     </v-row>
   </v-container>

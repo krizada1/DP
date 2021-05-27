@@ -44,7 +44,7 @@ export default new Vuex.Store({
         },
 
         get_table({ commit }) {
-            window.eel.get_table("D1Move")((result) => {
+            window.eel.get_table(["oven1Fault", "oven2Fault", "blasterBridged", "coolingZone1Fault", "coolingZone2Fault"])((result) => {
                 if (result) {
                     commit('mutate_table_data', { payload: result })
                 }
