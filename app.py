@@ -211,6 +211,21 @@ def load_slider(
     conn.close()
     return list(rows)
 
+@expose
+def connect_opc():
+    try:
+        telnetlib.Telnet('localhost', port=49580, timeout=1)
+        client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
+        client.connect()
+        boolean = True
+
+    except:
+        boolean = False
+        
+       
+
+    return boolean 
+
 
 # End of file
 if __name__ == "__main__":
