@@ -2,52 +2,95 @@
   <v-container fluid>
     <div class="home">
       <v-row>
-        <v-col cols="3">
-          <h2>ON / OFF dopravníků</h2>
+        <v-col>
+          <h2>Poloha</h2>
           <v-divider></v-divider>
           <br />
-          <Switches />
+          <br />
+          <h2><Poloha /></h2>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="4">
-          <h2>Rychlost dopravníků</h2>
-          <v-divider></v-divider>
-          <br /><br />
-          <Sliders />
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="3">
-          <h2>Stav lakovny</h2>
+        <v-col>
+          <h2>Override - posuv F</h2>
           <v-divider></v-divider>
           <br />
-          <Indicators />
+          <Override_F />
         </v-col>
+        <v-col>
+          <h2>Override - otáčky S</h2>
+          <v-divider></v-divider>
+          <br />
+          <Override_S />
+        </v-col>
+        <v-spacer></v-spacer>
       </v-row>
-      <v-row><Opc /></v-row>
-      <v-row><Scada /></v-row>
+      <v-col>
+        <Plotly
+          v-if="show_data_loaded_plot"
+          :data="plotly_data"
+          :layout="{ ...layout }"
+          class="mt-4"
+        >
+        </Plotly
+      ></v-col>
     </div>
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import Switches from "@/components/Switches.vue";
-import Sliders from "@/components/Sliders.vue";
-import Indicators from "@/components/Indicators.vue";
-import Scada from "@/components/Scada.vue";
-import Opc from "@/components/Opc.vue";
+import Override_F from "@/components/Override_F.vue";
+import Override_S from "@/components/Override_S.vue";
+import Poloha from "@/components/Poloha.vue";
+
+import { Plotly } from "vue-plotly";
 
 export default {
   name: "Home",
   components: {
-    Switches,
-    Sliders,
-    Indicators,
-    Scada,
-    Opc,
+    Override_F,
+    Override_S,
+    Plotly,
+    Poloha,
+  },
+
+  data() {
+    return {
+      show_data_loaded_plot: true,
+      layout: {
+        margin: { l: 50, r: 50, b: 0, t: 40, pad: 8 },
+        font: {
+          family: "roboto",
+        },
+        autosize: "false",
+        width: 1000,
+        height: 500,
+        xaxis: {
+          type: "date",
+          tickformat: "%y/%m/%d %H:%M:%S",
+          tickmode: "array",
+          tickangle: "45",
+          visible: true,
+          showticklabels: true,
+        },
+
+        legend: {
+          orientation: "h",
+          y: -0.2,
+        },
+        hovermode: "closest",
+      },
+      // data: [
+      //   {
+      //     x: [1, 2, 3, 4],
+      //     y: [10, 15, 13, 17],
+      //     type: "scatter",
+      //   },
+      // ],
+    };
   },
 };
 </script>
+
 
 <style scoped>
 .home {
