@@ -64,7 +64,7 @@ while True:
         #nacteni postupne vsech int hodnot promnennych definovanych v df z OPC Serveru 
         for i in range(len(df.columns)-1):
             node = client.get_node(opcstring+'%s' %df.columns[i])
-            node_value = int(node.get_value())
+            node_value = float(node.get_value())
             blank[i]=node_value
         
         blank[len(df.columns)-1]=Timestamp

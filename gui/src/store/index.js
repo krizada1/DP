@@ -35,18 +35,9 @@ export default new Vuex.Store({
     actions: {
         get_plot({ commit }) {
 
-            window.eel.get_plot(this.state.plotly_payload.promenna, this.state.plotly_payload_numberofrecords.pocet_zaznamu, this.state.plotly_payload.casovani)((result) => {
+            window.eel.get_plot("/DriveVsa/Drive/r0035[u1]", "/DriveVsa/Drive/r0035[u2]", 100, "Timing")((result) => {
                 if (result) {
                     commit('mutate_plotly_data', { payload: return_plot(result) })
-                }
-
-            })
-        },
-
-        get_table({ commit }) {
-            window.eel.get_table(["oven1Fault", "oven2Fault", "blasterBridged", "coolingZone1Fault", "coolingZone2Fault"])((result) => {
-                if (result) {
-                    commit('mutate_table_data', { payload: result })
                 }
 
             })
