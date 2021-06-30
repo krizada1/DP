@@ -9,7 +9,7 @@ import pandas as pd
 #DATA KTERE JE TREBA VYPLNIT
 
 #dataframe vsech nazvu hodnot typu integer, ktere chceme cist ze serveru opc a ukladat do SQL
-df_int = pd.DataFrame(columns=["/Channel/GeometricAxis/ActProqPos[u1,1]",
+df = pd.DataFrame(columns=["/Channel/GeometricAxis/ActProqPos[u1,1]",
                                 "/Channel/GeometricAxis/ActProqPos[u1,2]",
                                 "/Channel/State/feedRatelpoOvr",                     #doladit_nazev
                                 "/Channel/Spindle/speedOvr",
@@ -24,12 +24,9 @@ opcstring= 'ns=2;s='
 
 #SQL 
 
-#cesta k tabulkam sql pro ukladani bool a int promennych
-booltablestring='''PLC.dbo.bool''' #tohle neni pouzito - zatim nefunguje
-inttablestring='''PLC.dbo.int''' #thle neni pouzito - zatim nefunguje
 
 #SQL string - konfigurace sql serveru
-sqlstring="Driver={SQL Server};"+"Server=DESKTOP-LMSTPTV\WINCC;"+"Database=PLC;"+"Trusted_Connection=yes;"
+sqlstring="Driver={SQL Server};"+"Server=DESKTOP-LMSTPTV\WINCC;"+"Database=CNC;"+"Trusted_Connection=yes;"
 
 #TELNET (is for checking SQL Server avaliability with short timeout)
 telnetstring='localhost' 
@@ -56,7 +53,7 @@ conn = pyodbc.connect(sqlstring,timeout=1)
 print("SQL Server uspesne pripojen")
 print("\n")
 
-blankint=len(df_int.columns)*[0]
+blank=len(df.columns)*[0]
 
 while True:
     try:
@@ -64,30 +61,30 @@ while True:
         Timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         #nacteni postupne vsech bool hodnot promnennych definovanych v df_bool z OPC Serveru 
         
-        #nacteni postupne vsech int hodnot promnennych definovanych v df_int z OPC Serveru 
-        for i in range(len(df_int.columns)-1):
-            node = client.get_node(opcstring+'%s' %df_int.columns[i])
+        #nacteni postupne vsech int hodnot promnennych definovanych v df z OPC Serveru 
+        for i in range(len(df.columns)-1):
+            node = client.get_node(opcstring+'%s' %df.columns[i])
             node_value = int(node.get_value())
-            blankint[i]=node_value
+            blank[i]=node_value
         
-        blankint[len(df_int.columns)-1]=Timestamp
-        df_int=df_int.append(pd.DataFrame([blankint],columns=df_int.columns),ignore_index=True)
+        blank[len(df.columns)-1]=Timestamp
+        df=df.append(pd.DataFrame([blank],columns=df.columns),ignore_index=True)
 
         print("Data uspesne nactena z OPC  " + Timestamp)
         nezapsano = nezapsano +1
 
-        df_int_pro_zapsani=df_int.iloc[-nezapsano:].to_records(index=False)  #radky dataframe, ktere nebyly zapsany jsou transf. na list
-        df_int_tuple=tuple(u for u in (df_int_pro_zapsani)) #list je pak premeneny na tuple
+        df_pro_zapsani=df.iloc[-nezapsano:].to_records(index=False)  #radky dataframe, ktere nebyly zapsany jsou transf. na list
+        df_tuple=tuple(u for u in (df_pro_zapsani)) #list je pak premeneny na tuple
 
 
         try:
 
             for i in range(nezapsano): #zapisuji se vsechnz dosud nezapsane radky do SQL
                 cursor = conn.cursor()
-                pro_zapis_int = tuple(df_int_tuple[i-nezapsano]) #vytvoreni vektoru v spravnem tvaru pro zapis
-                cursor.execute('''INSERT INTO PLC.dbo.int VALUES
-                                (''' + (len(df_int.columns)-1)*'''?,'''+'''?)
-                                ''',pro_zapis_int) #zapisujou se hodnoty odzadu
+                pro_zapis = tuple(df_tuple[i-nezapsano]) #vytvoreni vektoru v spravnem tvaru pro zapis
+                cursor.execute('''INSERT INTO CNC.dbo.data VALUES
+                                (''' + (len(df.columns)-1)*'''?,'''+'''?)
+                                ''',pro_zapis) #zapisujou se hodnoty odzadu
                 conn.commit()  # poslani to SQL
                 #
                 cursor = conn.cursor()
@@ -95,7 +92,7 @@ while True:
 
             print("Data uspesne zapsana do SQL " + Timestamp)
             nezapsano=0
-            time.sleep(1 )
+            time.sleep(1)
             print("\n")
         except:
             Timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -107,7 +104,6 @@ while True:
             except:
                 print("Nepovedlo se obnovit spojeni s SQL  " + Timestamp)
                 print("\n")
-        time.sleep(4)
     except:
         Timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print("OPC nedostupne  " +  Timestamp)
@@ -118,4 +114,4 @@ while True:
         except:
             print("Nepovedlo se obnovit spojeni s OPC  " + Timestamp)
             print("\n")
-        time.sleep(5)
+        time.sleep(1)

@@ -7,8 +7,10 @@ import telnetlib
 import pandas as pd
 import datetime
 
+opcserverstring= "opc.tcp://localhost:49580"
+
 try:
-    client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
+    client = Client(opcserverstring)  # if anonymous authentication is enabled
     client.connect()
     print("OPC Server uspesne pripojen")
 
@@ -215,7 +217,7 @@ def load_slider(
 def connect_opc():
     try:
         telnetlib.Telnet('localhost', port=49580, timeout=1)
-        client = Client("opc.tcp://localhost:49580")  # if anonymous authentication is enabled
+        client = Client(opcserverstring)  # if anonymous authentication is enabled
         client.connect()
         boolean = True
 

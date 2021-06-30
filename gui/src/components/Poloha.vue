@@ -10,8 +10,8 @@
 export default {
   data() {
     return {
-      value_X: 50.32,
-      value_Y: 30.15,
+      value_X: "nedefinovano",
+      value_Y: "nedefinovano",
     };
   },
 };
