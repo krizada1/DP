@@ -43,6 +43,7 @@ import Override_S from "@/components/Override_S.vue";
 import Poloha from "@/components/Poloha.vue";
 
 import { Plotly } from "vue-plotly";
+import { mapState } from "vuex";
 
 export default {
   name: "Home",
@@ -87,6 +88,9 @@ export default {
       //   },
       // ],
     };
+  },
+  computed: {
+    ...mapState(["plotly_data"]),
   },
 };
 </script>

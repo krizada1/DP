@@ -37,7 +37,7 @@ def get_plot(promenna1,promenna2, pocet_zaznamu,casovani):
         timeout=1,
     )
 
-    query='''SELECT TOP %d %s, %s, %s FROM CNC.dbo.data ORDER BY Timing DESC'''% (pocet_zaznamu, promenna1,promenna2,casovani)
+    query='''SELECT TOP %d "%s", "%s", %s FROM CNC.dbo.data ORDER BY Timing DESC'''% (pocet_zaznamu, promenna1,promenna2,casovani)
     df_query = pd.read_sql_query(query,conn)
     df = pd.DataFrame(df_query, columns=[promenna1,promenna2,casovani])
     return mypythontools.pyvueeel.to_vue_plotly(df)
