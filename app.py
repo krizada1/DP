@@ -181,12 +181,6 @@ def load_scada(
 @expose
 def load_slider(
     promenna1,
-    promenna2,
-    promenna3,
-    promenna4,
-    promenna5,
-    promenna6,
-    promenna7,
 ):
     conn = pyodbc.connect(
         "Driver={SQL Server};"  # napojeni na server SQL
@@ -198,15 +192,9 @@ def load_slider(
 
     cursor = conn.cursor()
     cursor.execute(
-        """SELECT TOP 1 %s,%s,%s,%s,%s,%s,%s FROM PLC.dbo.int ORDER BY Timing DESC"""
+        """SELECT TOP 1 %s FROM PLC.dbo.int ORDER BY Timing DESC"""
         % (
             promenna1,
-            promenna2,
-            promenna3,
-            promenna4,
-            promenna5,
-            promenna6,
-            promenna7,
         )
     )
     rows = cursor.fetchone()
@@ -224,8 +212,6 @@ def connect_opc():
     except:
         boolean = False
         
-       
-
     return boolean 
 
 

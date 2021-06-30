@@ -20,6 +20,21 @@ export default {
       value: 120,
     };
   },
+
+  methods: {
+    LoadOpcState() {
+      window.eel.load_slider("/Channel/Spindle/speedOvr")((result) => {
+        this.value = result[0];
+      });
+    },
+  },
+
+  mounted: function () {
+    this.LoadOpcState();
+    window.setInterval(() => {
+      this.LoadOpcState();
+    }, 1000);
+  },
 };
 </script>
 
