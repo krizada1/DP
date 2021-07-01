@@ -4,13 +4,14 @@ from datetime import datetime
 import pyodbc
 import telnetlib
 import pandas as pd
-
+import cryptography
+from opcua.crypto import uacrypto
 
 #DATA KTERE JE TREBA VYPLNIT
 
 #dataframe vsech nazvu hodnot typu integer, ktere chceme cist ze serveru opc a ukladat do SQL
-df = pd.DataFrame(columns=["/Channel/GeometricAxis/ActProqPos[u1,1]",
-                                "/Channel/GeometricAxis/ActProqPos[u1,2]",
+df = pd.DataFrame(columns=["/Channel/GeometricAxis/actProqPos",
+                                "/Channel/GeometricAxis/actProqPos[u1,2]",
                                 "/Channel/State/feedRatelpoOvr",                     #doladit_nazev
                                 "/Channel/Spindle/speedOvr",
                                 "/DriveVsa/Drive/r0035[u1]",                         #doladit_nazev
@@ -19,7 +20,7 @@ df = pd.DataFrame(columns=["/Channel/GeometricAxis/ActProqPos[u1,1]",
 
 
 #zadani adresy opc serveru
-opcserverstring= "opc.tcp://localhost:49580"
+opcserverstring= "opc.tcp://192.168.214.242:4840"
 opcstring= 'ns=2;s='
 
 #SQL 
@@ -39,9 +40,10 @@ sqlport=49978 #port of sql server connection
 nezapsano = 0
 
 #pripojeni na OPC Server
-client = Client(opcserverstring)  # if anonymous authentication is enabled
-# client = Client("opc.tcp://user:12345678@1.1.1.53:4840/") #connect using a user
+#client = Client(opcserverstring,timeout=60000)  # if anonymous authentication is enabled
+client = Client("opc.tcp://OpcUaClient:12345678@192.168.214.242:4840/",timeout=60) #connect using a user
 print(client.application_uri)
+client.session_timeout = 60000
 client.connect()
 print("OPC Server uspesne pripojen")
 
@@ -63,7 +65,7 @@ while True:
         
         #nacteni postupne vsech int hodnot promnennych definovanych v df z OPC Serveru 
         for i in range(len(df.columns)-1):
-            node = client.get_node(opcstring+'%s' %df.columns[i])
+            node = client.get_node(opcstring+"%s" %df.columns[i])
             node_value = float(node.get_value())
             blank[i]=node_value
         
