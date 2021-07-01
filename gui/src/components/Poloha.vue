@@ -11,22 +11,15 @@ export default {
   data() {
     return {
       value_X: "nedefinovano",
-      value_Y: "nedefinovano",
+      value_Y: "0.000000",
     };
   },
 
   methods: {
     LoadOpcState() {
-      window.eel.load_slider("/Channel/GeometricAxis/ActProqPos[u1,1]")(
-        (result) => {
-          this.value_X = result[0];
-        }
-      );
-      window.eel.load_slider("/Channel/GeometricAxis/ActProqPos[u1,2]")(
-        (result) => {
-          this.value_Y = result[0];
-        }
-      );
+      window.eel.load_slider("/Channel/GeometricAxis/actProgPos")((result) => {
+        this.value_X = result[0];
+      });
     },
   },
 

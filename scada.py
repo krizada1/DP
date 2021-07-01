@@ -1,4 +1,4 @@
-from opcua import Client
+from opcua import Client,ua 
 from timeit import time, timeit
 from datetime import datetime
 import pyodbc
@@ -10,22 +10,18 @@ from opcua.crypto import uacrypto
 #DATA KTERE JE TREBA VYPLNIT
 
 #dataframe vsech nazvu hodnot typu integer, ktere chceme cist ze serveru opc a ukladat do SQL
-df = pd.DataFrame(columns=["/Channel/GeometricAxis/actProqPos",
-                                "/Channel/GeometricAxis/actProqPos[u1,2]",
-                                "/Channel/State/feedRatelpoOvr",                     #doladit_nazev
+df = pd.DataFrame(columns=["/Channel/GeometricAxis/actProgPos",
+                                "/Channel/State/feedRateIpoOvr",                     #doladit_nazev
                                 "/Channel/Spindle/speedOvr",
-                                "/DriveVsa/Drive/r0035[u1]",                         #doladit_nazev
-                                "/DriveVsa/Drive/r0035[u2]",                         #doladit_nazev
+                                "/DriveVsa/Drive/r0035",                         #doladit_nazev                        #doladit_nazev
                                 "Timestamp"])
 
 
 #zadani adresy opc serveru
-opcserverstring= "opc.tcp://192.168.214.242:4840"
+opcserverstring= "opc.tcp://10.64.4.233:4840"
 opcstring= 'ns=2;s='
 
 #SQL 
-
-
 #SQL string - konfigurace sql serveru
 sqlstring="Driver={SQL Server};"+"Server=DESKTOP-LMSTPTV\WINCC;"+"Database=CNC;"+"Trusted_Connection=yes;"
 
@@ -40,10 +36,11 @@ sqlport=49978 #port of sql server connection
 nezapsano = 0
 
 #pripojeni na OPC Server
-#client = Client(opcserverstring,timeout=60000)  # if anonymous authentication is enabled
-client = Client("opc.tcp://OpcUaClient:12345678@192.168.214.242:4840/",timeout=60) #connect using a user
+#client = Client(opcserverstring,timeout=60)  # if anonymous authentication is enabled
+client = Client("opc.tcp://OpcUaClient:12345678@10.64.4.233:4840/",timeout=60) #connect using a user
 print(client.application_uri)
 client.session_timeout = 60000
+client.secure_channel_timeout = 300000
 client.connect()
 print("OPC Server uspesne pripojen")
 

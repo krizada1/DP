@@ -35,7 +35,7 @@ export default new Vuex.Store({
     actions: {
         get_plot({ commit }) {
 
-            window.eel.get_plot("/DriveVsa/Drive/r0035[u1]", "/DriveVsa/Drive/r0035[u2]", 100, "Timing")((result) => {
+            window.eel.get_plot("/DriveVsa/Drive/r0035", 100, "Timing")((result) => {
                 if (result) {
                     commit('mutate_plotly_data', { payload: return_plot(result) })
                 }

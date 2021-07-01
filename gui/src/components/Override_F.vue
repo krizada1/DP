@@ -23,7 +23,7 @@ export default {
 
   methods: {
     LoadOpcState() {
-      window.eel.load_slider("/Channel/State/feedRatelpoOvr")((result) => {
+      window.eel.load_slider("/Channel/State/feedRateIpoOvr")((result) => {
         this.value = result[0];
       });
     },
