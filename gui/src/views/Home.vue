@@ -75,8 +75,8 @@ export default {
         },
 
         legend: {
-          orientation: "h",
-          y: -0.2,
+          //orientation: "h",
+          y: -0.3,
         },
         hovermode: "closest",
       },
@@ -92,9 +92,21 @@ export default {
   computed: {
     ...mapState(["plotly_data"]),
   },
+
+  methods: {
+    LoadOpcState() {
+      this.$store.dispatch("get_plot");
+    },
+  },
+
+  mounted: function () {
+    this.LoadOpcState();
+    window.setInterval(() => {
+      this.LoadOpcState();
+    }, 1000);
+  },
 };
 </script>
-
 
 <style scoped>
 .home {
